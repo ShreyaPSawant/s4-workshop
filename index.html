@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Appointment</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Patient Appointment Form</h1>
+    <form id="appointmentForm">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="uname">Username:</label>
+      <input type="text" id="uname" name="uname" required />
+
+      <label for="date">Date of Appointment:</label>
+      <input type="date" id="date" name="date" required />
+
+      <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+      function submitForm() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const uname = document.getElementById("uname").value;
+        const date = document.getElementById("date").value;
+
+        const data = {
+          name: name,
+          email: email,
+          uname: uname,
+          appointmentDate: date,
+        };
+
+        console.log(data);
+
+        const apimEndpoint =
+          "https://s4-appointment-apim.azure-api.net/s4-apis/appointment/new";
+
+        fetch(apimEndpoint, {
+          method: "POST",
+          body: JSON.stringify(data),
+          mode: "no-cors",
+        })
+          .then(() => {
+            alert("Appointment submitted successfully!");
+          })
+          .catch((error) => {
+            alert(`An error occurred: ${error.message}`);
+          });
+      }
+    </script>
+  </body>
+</html>

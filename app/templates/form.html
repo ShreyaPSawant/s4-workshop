@@ -20,24 +20,15 @@
 
       <label for="date">Date of Appointment:</label>
       <select id="date" name="date" required>
-        <option value="" disabled selected>Select a date</option>
-        <option value="2024-12-21">December 21, 2024</option>
-        <option value="2024-12-22">December 22, 2024</option>
-        <option value="2024-12-23">December 23, 2024</option>
-        <option value="2024-12-24">December 24, 2024</option>
-        <option value="2024-12-25">December 25, 2024</option>
-        <option value="2024-12-26">December 26, 2024</option>
-        <option value="2024-12-27">December 27, 2024</option>
-        <option value="2024-12-28">December 28, 2024</option>
-        <option value="2024-12-29">December 29, 2024</option>
-        <option value="2024-12-30">December 30, 2024</option>
+      <option value="" disabled selected>Select a date</option>
+      <!-- Available dates will be populated here -->
       </select>
-
-      <button type="button" onclick="submitForm()">Submit</button>
-    </form>
-
-    <script>
-      function submitForm() {
+       
+            <button type="button" onclick="submitForm()">Submit</button>
+      </form>
+       
+          <script>
+            function submitForm() {
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const uname = document.getElementById("uname").value;
@@ -74,6 +65,46 @@
             alert(`An error occurred: ${error.message}`);
           });
       }
+            // Fetch available dates when the page loads
+            window.onload = function() {
+              fetchAvailableDates();
+            };
+       
+            // Fetch the available dates from the backend
+            function fetchAvailableDates() {
+              const apiEndpoint = "/api/available-dates"; // Replace with your API endpoint that provides available dates
+       
+              fetch(apiEndpoint)
+                .then(response => response.json())
+                .then(data => {
+                  if (Array.isArray(data)) {
+                    populateAvailableDates(data);
+                  } else {
+                    alert("Error: Invalid data received");
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error fetching available dates:", error);
+                  alert("An error occurred while fetching available dates.");
+                });
+            }
+       
+            // Populate the dropdown with available dates
+            function populateAvailableDates(dates) {
+              const dateSelect = document.getElementById("date");
+              dateSelect.innerHTML = "<option value='' disabled selected>Select a date</option>"; // Reset the dropdown
+       
+              // Add each date as an option in the dropdown
+              dates.forEach(date => {
+                const option = document.createElement("option");
+                option.value = date; // Use the date as the value
+                option.textContent = new Date(date).toLocaleDateString(); // Format the date to a readable format
+                dateSelect.appendChild(option);
+              });
+            }
+
+
+      
     </script>
   </body>
 </html>

@@ -32,14 +32,23 @@ body {
     color: #555;
   }
 
-  input {
-    width: 100%;
+  input, select {
+    width: 100%; /* Full width to match the form width */
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-  }
+    box-sizing: border-box; /* Ensures padding and border are included in width */
+    appearance: none; /* Removes native styles for select dropdowns */
+    background-color: #fff;
+}
+
+select {
+    height: 40px; /* Adjust to match input height */
+    line-height: 1.5; /* Ensures text aligns vertically */
+}
+
 
   button {
     background-color: #007bff;
